@@ -10,21 +10,29 @@ import com.jeffhb60.bugfreejourney.repositories.CategoryRepository;
 import com.jeffhb60.bugfreejourney.repositories.ProductRepository;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
-import org.springframework.stereotype.Service;
 
+import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
+
+import java.io.IOException;
 import java.util.List;
 
 @RequiredArgsConstructor
 @Service
 public class ProductServiceImpl implements ProductService {
 
+    @Value("${file.upload-dir}")
+    private String uploadDir;
+
     private final ProductRepository productRepository;
     private final CategoryRepository categoryRepository;
     private final ModelMapper modelMapper;
+    private final FileService fileService;
 
 
     @Override
@@ -125,5 +133,15 @@ public class ProductServiceImpl implements ProductService {
                 .orElseThrow(() -> {return new APIException("Cannot delete product.  Product with id " + productId + " not found!");});
         productRepository.delete(product);
         return modelMapper.map(product, ProductDTO.class);
+    }
+
+    @Override
+    public ProductDTO updateProductImage(Long productId, MultipartFile image) throws IOException {
+        Product dbProduct = productRepository.findById(productId)
+                .orElseThrow(()->new APIException("Cannot upload image!  Product with id " + productId + " not found!"));
+        String filename = fileService.uploadImage(uploadDir, image);
+        dbProduct.setImage(filename);
+        Product udpatedProduct = productRepository.save(dbProduct);
+        return modelMapper.map(udpatedProduct, ProductDTO.class);
     }
 }
