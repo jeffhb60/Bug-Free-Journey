@@ -3,7 +3,7 @@ package com.jeffhb60.bugfreejourney.service;
 import com.jeffhb60.bugfreejourney.dto.CategoryDTO;
 import com.jeffhb60.bugfreejourney.dto.CategoryResponse;
 import com.jeffhb60.bugfreejourney.exceptions.APIException;
-import com.jeffhb60.bugfreejourney.exceptions.ResourceNotFoundException;
+import com.jeffhb60.bugfreejourney.exceptions.CustomResourceNotFoundException;
 import com.jeffhb60.bugfreejourney.model.Category;
 import com.jeffhb60.bugfreejourney.repositories.CategoryRepository;
 import lombok.RequiredArgsConstructor;
@@ -67,7 +67,7 @@ public class CategoryServiceImpl implements CategoryService{
     @Override
     public CategoryDTO deleteCategory(Long categoryId) {
         Category category = categoryRepository.findById(categoryId)
-                .orElseThrow(() -> new ResourceNotFoundException("Category", "categoryId", categoryId));
+                .orElseThrow(() -> new CustomResourceNotFoundException("Category", "categoryId", categoryId));
         categoryRepository.delete(category);
         return modelMapper.map(category,CategoryDTO.class);
     }
@@ -75,7 +75,7 @@ public class CategoryServiceImpl implements CategoryService{
     @Override
     public CategoryDTO updateCategory(CategoryDTO categoryDTO, Long categoryId) {
         Category savedCategory = categoryRepository.findById(categoryId)
-                .orElseThrow(() -> new ResourceNotFoundException("Category", "categoryId", categoryId));
+                .orElseThrow(() -> new CustomResourceNotFoundException("Category", "categoryId", categoryId));
         Category category = modelMapper.map(categoryDTO, Category.class);
         category.setCategoryId(categoryId);
         savedCategory = categoryRepository.save(category);
