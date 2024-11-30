@@ -2,64 +2,54 @@ package com.jeffhb60.bugfreejourney.model;
 
 import com.jeffhb60.bugfreejourney.repositories.CategoryRepository;
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Size;
+import lombok.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-@Entity @Table(name = "products")
-@Getter @Setter @NoArgsConstructor @AllArgsConstructor
+@Entity
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
+@Table(name = "products")
+@ToString
 public class Product {
 
-    @Column(name = "product_id")
-    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private Long productId;
 
-    @Column(name = "product_name")
+    @NotBlank
+    @Size(min = 3, message = "Product name must contain atleast 3 characters")
     private String productName;
-
-    @Column(name = "description")
-    private String description;
-
-    @Column(name = "quantity")
-    private Integer quantity;
-
-    @Column(name = "price")
-    private double price;
-
-    @Column(name = "discount")
-    private double discount;
-
-    @Column(name = "special_price")
-    private double specialPrice;
-
-    @Column(name = "image")
     private String image;
+
+    @NotBlank
+    @Size(min = 6, message = "Product description must contain atleast 6 characters")
+    private String description;
+    private Integer quantity;
+    private double price;
+    private double discount;
+    private double specialPrice;
 
     @ManyToOne
     @JoinColumn(name = "category_id")
     private Category category;
 
-    public Product(String productName, String description, Integer quantity, double price, double discount) {
-        this.productName = productName;
-        this.description = description;
-        this.quantity = quantity;
-        this.price = price;
-        this.discount = discount;
-        this.image = "http://localhost:8080/images/default.png";
-        this.specialPrice = this.price - this.price * this.discount * 0.01;
-    }
+    @ManyToOne
+    @JoinColumn(name = "seller_id")
+    private User user;
 
     public Product(String productName, String description, Integer quantity, double price, double discount, Category category) {
         this.productName = productName;
         this.description = description;
         this.quantity = quantity;
         this.price = price;
-        this.price = discount;
+        this.discount = discount;
         this.category = category;
-        this.image = "http://localhost:8080/images/default.png";
-        this.specialPrice = this.price - this.price * this.discount * 0.01;
+        this.image = "placeholder.png";
+        this.specialPrice = price - price * discount * 0.01;
     }
 }
+

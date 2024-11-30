@@ -4,24 +4,29 @@ import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
 import lombok.AllArgsConstructor;
-import lombok.Getter;
+import lombok.Data;
 import lombok.NoArgsConstructor;
-import lombok.Setter;
 
-@Entity @Table(name = "categories", uniqueConstraints = {@UniqueConstraint(columnNames = "category_name")})
-@AllArgsConstructor @NoArgsConstructor @Getter @Setter
+import java.util.List;
+
+@Entity(name = "categories")
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
 public class Category {
-    @Column(name = "category_id") @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long categoryId;
 
-    @Column(name = "category_name", unique = true, nullable = false)
-    @Size(min = 1, max = 50, message = "Error: Category must contain at least 1 character and no more than 50!")
-    @NotBlank(message = "Error: Category name is a required filed and cannot be left blank!")
+    @NotBlank
+    @Size(min = 5, message = "Category name must contain atleast 5 characters")
     private String categoryName;
 
-    public Category(String name) {
-        this.categoryName = name;
+    @OneToMany(mappedBy = "category", cascade = CascadeType.ALL)
+    private List<Product> products;
+
+    public Category(String categoryName) {
+        this.categoryName = categoryName;
     }
-
-
 }
+

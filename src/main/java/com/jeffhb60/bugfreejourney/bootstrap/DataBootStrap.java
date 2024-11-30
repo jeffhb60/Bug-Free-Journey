@@ -1,21 +1,27 @@
 package com.jeffhb60.bugfreejourney.bootstrap;
 
 
-import com.jeffhb60.bugfreejourney.model.Category;
-import com.jeffhb60.bugfreejourney.model.Product;
+import com.jeffhb60.bugfreejourney.model.*;
 import com.jeffhb60.bugfreejourney.repositories.CategoryRepository;
 import com.jeffhb60.bugfreejourney.repositories.ProductRepository;
+import com.jeffhb60.bugfreejourney.repositories.RoleRepository;
+import com.jeffhb60.bugfreejourney.repositories.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.boot.CommandLineRunner;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
+import java.util.Set;
 
 @Component @RequiredArgsConstructor
 public class DataBootStrap implements CommandLineRunner {
 
     private final CategoryRepository categoryRepository;
     private final ProductRepository productRepository;
+    private final UserRepository userRepository;
+    private final RoleRepository roleRepository;
+    private final PasswordEncoder passwordEncoder;
 
     @Override
     public void run(String... args) throws Exception {
@@ -185,6 +191,64 @@ public class DataBootStrap implements CommandLineRunner {
 
             );
             productRepository.saveAll(products);
+        }
+
+        if (userRepository.count() == 0) {
+            // Retrieve or create roles
+            Role userRole = roleRepository.findByRoleName(AppRole.ROLE_USER)
+                    .orElseGet(() -> {
+                        Role newUserRole = new Role(AppRole.ROLE_USER);
+                        return roleRepository.save(newUserRole);
+                    });
+
+            Role sellerRole = roleRepository.findByRoleName(AppRole.ROLE_SELLER)
+                    .orElseGet(() -> {
+                        Role newSellerRole = new Role(AppRole.ROLE_SELLER);
+                        return roleRepository.save(newSellerRole);
+                    });
+
+            Role adminRole = roleRepository.findByRoleName(AppRole.ROLE_ADMIN)
+                    .orElseGet(() -> {
+                        Role newAdminRole = new Role(AppRole.ROLE_ADMIN);
+                        return roleRepository.save(newAdminRole);
+                    });
+
+            Set<Role> userRoles = Set.of(userRole);
+            Set<Role> sellerRoles = Set.of(sellerRole);
+            Set<Role> adminRoles = Set.of(userRole, sellerRole, adminRole);
+
+
+            // Create users if not already present
+            if (!userRepository.existsByUserName("user1")) {
+                User user1 = new User("user1", "user1@example.com", passwordEncoder.encode("password1"));
+                userRepository.save(user1);
+            }
+
+            if (!userRepository.existsByUserName("seller1")) {
+                User seller1 = new User("seller1", "seller1@example.com", passwordEncoder.encode("password2"));
+                userRepository.save(seller1);
+            }
+
+            if (!userRepository.existsByUserName("admin")) {
+                User admin = new User("admin", "admin@example.com", passwordEncoder.encode("adminPass"));
+                userRepository.save(admin);
+            }
+
+            // Update roles for existing users
+            userRepository.findByUserName("user1").ifPresent(user -> {
+                user.setRoles(userRoles);
+                userRepository.save(user);
+            });
+
+            userRepository.findByUserName("seller1").ifPresent(seller -> {
+                seller.setRoles(sellerRoles);
+                userRepository.save(seller);
+            });
+
+            userRepository.findByUserName("admin").ifPresent(admin -> {
+                admin.setRoles(adminRoles);
+                userRepository.save(admin);
+            });
         }
     }
 }
