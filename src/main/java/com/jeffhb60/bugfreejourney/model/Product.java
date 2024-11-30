@@ -8,6 +8,9 @@ import lombok.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @Entity
 @Data
 @NoArgsConstructor
@@ -18,19 +21,32 @@ public class Product {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
+    @Column(name = "product_id")
     private Long productId;
 
     @NotBlank
     @Size(min = 3, message = "Product name must contain atleast 3 characters")
+    @Column(name = "product_name")
     private String productName;
+
+    @Column(name = "image")
     private String image;
 
     @NotBlank
     @Size(min = 6, message = "Product description must contain atleast 6 characters")
+    @Column(name = "description")
     private String description;
+
+    @Column(name = "quantity")
     private Integer quantity;
+
+    @Column(name = "price")
     private double price;
+
+    @Column(name = "discount")
     private double discount;
+
+    @Column(name = "special_price")
     private double specialPrice;
 
     @ManyToOne
@@ -40,6 +56,9 @@ public class Product {
     @ManyToOne
     @JoinColumn(name = "seller_id")
     private User user;
+
+    @OneToMany(mappedBy = "product", cascade = {CascadeType.PERSIST, CascadeType.MERGE}, fetch = FetchType.EAGER)
+    private List<CartItem> products = new ArrayList<>();
 
     public Product(String productName, String description, Integer quantity, double price, double discount, Category category) {
         this.productName = productName;
