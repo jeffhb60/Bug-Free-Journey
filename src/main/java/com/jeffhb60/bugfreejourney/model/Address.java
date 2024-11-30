@@ -19,30 +19,37 @@ import java.util.List;
 public class Address {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "address_id")
     private Long addressId;
 
     @NotBlank
-    @Size(min = 5, message = "Street name must be atleast 5 characters")
+    @Size(min = 5, message = "Street name must be at least 5 characters")
+    @Column(name = "street")
     private String street;
 
     @NotBlank
-    @Size(min = 5, message = "Building name must be atleast 5 characters")
+    @Size(min = 5, message = "Building name must be at least 5 characters")
+    @Column(name = "building_name")
     private String buildingName;
 
     @NotBlank
-    @Size(min = 4, message = "City name must be atleast 4 characters")
+    @Size(min = 4, message = "City name must be at least 4 characters")
+    @Column(name = "city")
     private String city;
 
     @NotBlank
     @Size(min = 2, message = "State name must be atleast 2 characters")
+    @Column(name = "state")
     private String state;
 
     @NotBlank
     @Size(min = 2, message = "Country name must be atleast 2 characters")
+    @Column(name = "country")
     private String country;
 
     @NotBlank
     @Size(min = 6, message = "Pincode must be atleast 6 characters")
+    @Column(name = "pincode")
     private String pincode;
 
     @ToString.Exclude

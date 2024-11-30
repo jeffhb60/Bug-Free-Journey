@@ -16,10 +16,12 @@ import java.util.List;
 public class Category {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "category_id")
     private Long categoryId;
 
     @NotBlank
     @Size(min = 5, message = "Category name must contain atleast 5 characters")
+    @Column(name = "category_name")
     private String categoryName;
 
     @OneToMany(mappedBy = "category", cascade = CascadeType.ALL)
