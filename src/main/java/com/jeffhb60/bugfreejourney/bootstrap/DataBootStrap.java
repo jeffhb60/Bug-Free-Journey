@@ -218,37 +218,108 @@ public class DataBootStrap implements CommandLineRunner {
             Set<Role> adminRoles = Set.of(userRole, sellerRole, adminRole);
 
 
-            // Create users if not already present
-            if (!userRepository.existsByUserName("user1")) {
-                User user1 = new User("user1", "user1@example.com", passwordEncoder.encode("password1"));
-                userRepository.save(user1);
+            // Creating 10 random users
+            if (!userRepository.existsByUserName("johndoe")) {
+                User johndoe = new User("johndoe", "johndoe@example.com", passwordEncoder.encode("password123"));
+                userRepository.save(johndoe);
             }
 
-            if (!userRepository.existsByUserName("seller1")) {
-                User seller1 = new User("seller1", "seller1@example.com", passwordEncoder.encode("password2"));
-                userRepository.save(seller1);
+            if (!userRepository.existsByUserName("janedoe")) {
+                User janedoe = new User("janedoe", "janedoe@example.com", passwordEncoder.encode("securepass"));
+                userRepository.save(janedoe);
             }
 
-            if (!userRepository.existsByUserName("admin")) {
-                User admin = new User("admin", "admin@example.com", passwordEncoder.encode("adminPass"));
-                userRepository.save(admin);
+            if (!userRepository.existsByUserName("robertbrown")) {
+                User robertbrown = new User("robertbrown", "robertbrown@example.com", passwordEncoder.encode("robert2024"));
+                userRepository.save(robertbrown);
             }
 
-            // Update roles for existing users
-            userRepository.findByUserName("user1").ifPresent(user -> {
+            if (!userRepository.existsByUserName("emilyclark")) {
+                User emilyclark = new User("emilyclark", "emilyclark@example.com", passwordEncoder.encode("emilypass"));
+                userRepository.save(emilyclark);
+            }
+
+            if (!userRepository.existsByUserName("michaelwhite")) {
+                User michaelwhite = new User("michaelwhite", "michaelwhite@example.com", passwordEncoder.encode("whitemike"));
+                userRepository.save(michaelwhite);
+            }
+
+            if (!userRepository.existsByUserName("sarawilson")) {
+                User sarawilson = new User("sarawilson", "sarawilson@example.com", passwordEncoder.encode("sarasecret"));
+                userRepository.save(sarawilson);
+            }
+
+            if (!userRepository.existsByUserName("davidlee")) {
+                User davidlee = new User("davidlee", "davidlee@example.com", passwordEncoder.encode("david123"));
+                userRepository.save(davidlee);
+            }
+
+            if (!userRepository.existsByUserName("oliviagreen")) {
+                User oliviagreen = new User("oliviagreen", "oliviagreen@example.com", passwordEncoder.encode("greenolive"));
+                userRepository.save(oliviagreen);
+            }
+
+            if (!userRepository.existsByUserName("danielking")) {
+                User danielking = new User("danielking", "danielking@example.com", passwordEncoder.encode("kingdaniel"));
+                userRepository.save(danielking);
+            }
+
+            if (!userRepository.existsByUserName("ashleyhill")) {
+                User ashleyhill = new User("ashleyhill", "ashleyhill@example.com", passwordEncoder.encode("ashleyrocks"));
+                userRepository.save(ashleyhill);
+            }
+
+// Assigning random roles to these users
+            userRepository.findByUserName("johndoe").ifPresent(user -> {
                 user.setRoles(userRoles);
                 userRepository.save(user);
             });
 
-            userRepository.findByUserName("seller1").ifPresent(seller -> {
+            userRepository.findByUserName("janedoe").ifPresent(admin -> {
+                admin.setRoles(adminRoles);
+                userRepository.save(admin);
+            });
+
+            userRepository.findByUserName("robertbrown").ifPresent(seller -> {
                 seller.setRoles(sellerRoles);
                 userRepository.save(seller);
             });
 
-            userRepository.findByUserName("admin").ifPresent(admin -> {
+            userRepository.findByUserName("emilyclark").ifPresent(user -> {
+                user.setRoles(userRoles);
+                userRepository.save(user);
+            });
+
+            userRepository.findByUserName("michaelwhite").ifPresent(admin -> {
                 admin.setRoles(adminRoles);
                 userRepository.save(admin);
             });
+
+            userRepository.findByUserName("sarawilson").ifPresent(seller -> {
+                seller.setRoles(sellerRoles);
+                userRepository.save(seller);
+            });
+
+            userRepository.findByUserName("davidlee").ifPresent(user -> {
+                user.setRoles(userRoles);
+                userRepository.save(user);
+            });
+
+            userRepository.findByUserName("oliviagreen").ifPresent(admin -> {
+                admin.setRoles(adminRoles);
+                userRepository.save(admin);
+            });
+
+            userRepository.findByUserName("danielking").ifPresent(seller -> {
+                seller.setRoles(sellerRoles);
+                userRepository.save(seller);
+            });
+
+            userRepository.findByUserName("ashleyhill").ifPresent(user -> {
+                user.setRoles(userRoles);
+                userRepository.save(user);
+            });
+
         }
     }
 }
