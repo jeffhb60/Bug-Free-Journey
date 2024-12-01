@@ -13,7 +13,7 @@ import static com.jeffhb60.bugfreejourney.config.AppConstants.*;
 @RequiredArgsConstructor
 public class ProductController {
 
-    public final ProductService productService;
+    private final ProductService productService;
 
     @PostMapping("admin/categories/{categoryId}/product")
     public ResponseEntity<ProductDTO> addProduct(@RequestBody ProductDTO productDTO,

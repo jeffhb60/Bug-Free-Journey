@@ -14,7 +14,7 @@ import java.io.IOException;
 @RequiredArgsConstructor @RestController @RequestMapping("/api")
 public class FileController {
 
-    public final ProductService productService;
+    private final ProductService productService;
 
     @PutMapping("/public/products/{productId}/images")
     ResponseEntity<ProductDTO> updateProductImage(@PathVariable Long productId,

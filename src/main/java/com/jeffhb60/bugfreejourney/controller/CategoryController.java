@@ -10,7 +10,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import static com.jeffhb60.bugfreejourney.config.AppConstants.*;
-import static org.springframework.data.jpa.domain.AbstractPersistable_.id;
 
 @RequestMapping("/api") @RestController @AllArgsConstructor
 public class CategoryController {
