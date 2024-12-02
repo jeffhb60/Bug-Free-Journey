@@ -2,16 +2,14 @@ package com.jeffhb60.bugfreejourney.bootstrap;
 
 
 import com.jeffhb60.bugfreejourney.model.*;
-import com.jeffhb60.bugfreejourney.repositories.CategoryRepository;
-import com.jeffhb60.bugfreejourney.repositories.ProductRepository;
-import com.jeffhb60.bugfreejourney.repositories.RoleRepository;
-import com.jeffhb60.bugfreejourney.repositories.UserRepository;
+import com.jeffhb60.bugfreejourney.repositories.*;
 import lombok.RequiredArgsConstructor;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.Set;
 
 @Component @RequiredArgsConstructor
@@ -22,6 +20,7 @@ public class DataBootStrap implements CommandLineRunner {
     private final UserRepository userRepository;
     private final RoleRepository roleRepository;
     private final PasswordEncoder passwordEncoder;
+    private final AddressRepository addressRepository;
 
     @Override
     public void run(String... args) throws Exception {
@@ -217,8 +216,6 @@ public class DataBootStrap implements CommandLineRunner {
             Set<Role> sellerRoles = Set.of(sellerRole);
             Set<Role> adminRoles = Set.of(userRole, sellerRole, adminRole);
 
-
-            // Creating 10 random users
             if (!userRepository.existsByUserName("johndoe")) {
                 User johndoe = new User("johndoe", "johndoe@example.com", passwordEncoder.encode("password123"));
                 userRepository.save(johndoe);
@@ -269,7 +266,6 @@ public class DataBootStrap implements CommandLineRunner {
                 userRepository.save(ashleyhill);
             }
 
-// Assigning random roles to these users
             userRepository.findByUserName("johndoe").ifPresent(user -> {
                 user.setRoles(userRoles);
                 userRepository.save(user);
@@ -320,6 +316,75 @@ public class DataBootStrap implements CommandLineRunner {
                 userRepository.save(user);
             });
 
+
         }
+
+        if (addressRepository.count() == 0) {
+            Optional<User> johndoe = userRepository.findByUserName("johndoe");
+            if (johndoe.isPresent()) {
+                User user = johndoe.get();
+                Address address1 = new Address("123 Maple Street", "", "Springfield", "Illinois", "62704", user);
+                Address address2 = new Address("456 Oak Avenue", "", "Decatur", "Illinois", "62521", user);
+                addressRepository.save(address1);
+                addressRepository.save(address2);
+            }
+
+            Optional<User> janedoe = userRepository.findByUserName("janedoe");
+            if (janedoe.isPresent()) {
+                User user = janedoe.get();
+                Address address1 = new Address("789 Pine Drive", "", "Columbus", "Ohio", "43085", user);
+                Address address2 = new Address("321 Cedar Lane", "", "Dayton", "Ohio", "45410", user);
+                addressRepository.save(address1);
+                addressRepository.save(address2);
+            }
+
+            Optional<User> robertbrown = userRepository.findByUserName("robertbrown");
+            if (robertbrown.isPresent()) {
+                User user = robertbrown.get();
+                Address address1 = new Address("654 Birch Street", "", "Topeka", "Kansas", "66604", user);
+                Address address2 = new Address("987 Ash Boulevard", "", "Wichita", "Kansas", "67213", user);
+                addressRepository.save(address1);
+                addressRepository.save(address2);
+            }
+
+            Optional<User> emilyclark = userRepository.findByUserName("emilyclark");
+            if (emilyclark.isPresent()) {
+                User user = emilyclark.get();
+                Address address = new Address("159 Elm Court", "", "Phoenix", "Arizona", "85003", user);
+                addressRepository.save(address);
+            }
+
+            Optional<User> michaelwhite = userRepository.findByUserName("michaelwhite");
+            if (michaelwhite.isPresent()) {
+                User user = michaelwhite.get();
+                Address address = new Address("753 Willow Lane", "", "Denver", "Colorado", "80203", user);
+                addressRepository.save(address);
+            }
+
+            Optional<User> sarawilson = userRepository.findByUserName("sarawilson");
+            if (sarawilson.isPresent()) {
+                User user = sarawilson.get();
+                Address address1 = new Address("246 Poplar Avenue", "", "Salt Lake City", "Utah", "84101", user);
+                Address address2 = new Address("369 Magnolia Street", "", "Provo", "Utah", "84601", user);
+                addressRepository.save(address1);
+                addressRepository.save(address2);
+            }
+
+            Optional<User> davidlee = userRepository.findByUserName("davidlee");
+            if (davidlee.isPresent()) {
+                User user = davidlee.get();
+                Address address = new Address("482 Spruce Road", "", "Portland", "Oregon", "97201", user);
+                addressRepository.save(address);
+            }
+
+            Optional<User> danielking = userRepository.findByUserName("danielking");
+            if (danielking.isPresent()) {
+                User user = danielking.get();
+                Address address = new Address("572 Chestnut Circle", "", "Atlanta", "Georgia", "30303", user);
+                addressRepository.save(address);
+            }
+
+        }
+
     }
 }

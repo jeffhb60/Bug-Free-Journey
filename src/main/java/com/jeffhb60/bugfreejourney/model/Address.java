@@ -27,8 +27,6 @@ public class Address {
     @Column(name = "street")
     private String street;
 
-    @NotBlank
-    @Size(min = 5, message = "Building name must be at least 5 characters")
     @Column(name = "building_name")
     private String buildingName;
 
@@ -38,31 +36,45 @@ public class Address {
     private String city;
 
     @NotBlank
-    @Size(min = 2, message = "State name must be atleast 2 characters")
+    @Size(min = 2, message = "State name must be at least 2 characters")
     @Column(name = "state")
     private String state;
 
     @NotBlank
-    @Size(min = 2, message = "Country name must be atleast 2 characters")
+    @Size(min = 2, message = "Country name must be at least 2 characters")
     @Column(name = "country")
     private String country;
 
     @NotBlank
-    @Size(min = 6, message = "Pincode must be atleast 6 characters")
-    @Column(name = "pincode")
-    private String pincode;
+    @Size(min = 5, message = "Postal code must be at least 5 characters")
+    @Column(name = "postal_code")
+    private String postalCode;
 
     @ToString.Exclude
-    @ManyToMany(mappedBy = "addresses")
-    private List<User> users = new ArrayList<>();
+    @ManyToOne
+    @JoinColumn(name = "user_id")
+    private User user;
 
-    public Address(String street, String buildingName, String city, String state, String country, String pincode) {
+    public Address(String street, String buildingName, String city, String state, String postalCode, String country, User user) {
         this.street = street;
         this.buildingName = buildingName;
         this.city = city;
         this.state = state;
+        this.postalCode = postalCode;
         this.country = country;
-        this.pincode = pincode;
+        this.user = user;
     }
+
+    public Address(String street, String buildingName, String city, String state, String postalCode, User user) {
+        this.street = street;
+        this.buildingName = buildingName;
+        this.city = city;
+        this.state = state;
+        this.postalCode = postalCode;
+        this.country = "United States of America";
+        this.user = user;
+    }
+
+
 }
 
