@@ -1,15 +1,11 @@
 package com.jeffhb60.bugfreejourney.dto;
 
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import java.util.ArrayList;
 import java.util.List;
 
-@Data
-@NoArgsConstructor
-@AllArgsConstructor
+@AllArgsConstructor @NoArgsConstructor @Getter @Setter
 public class CartDTO {
     private Long cartId;
     private Double totalPrice = 0.0;

@@ -2,9 +2,7 @@ package com.jeffhb60.bugfreejourney.dto;
 
 import lombok.*;
 
-@Data @NoArgsConstructor @AllArgsConstructor
-@Getter
-@Setter
+@AllArgsConstructor @NoArgsConstructor @Getter @Setter
 public class OrderItemDTO {
 
     private Long orderItemId;

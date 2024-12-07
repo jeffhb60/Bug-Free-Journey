@@ -1,12 +1,8 @@
 package com.jeffhb60.bugfreejourney.dto;
 
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
-@Data
-@NoArgsConstructor
-@AllArgsConstructor
+@AllArgsConstructor @NoArgsConstructor @Getter @Setter
 public class CartItemDTO {
     private Long cartItemId;
     private CartDTO cart;

@@ -6,10 +6,7 @@ import lombok.*;
 import java.time.LocalDate;
 import java.util.List;
 
-@Data
-@NoArgsConstructor
-@AllArgsConstructor
-@Getter @Setter
+@AllArgsConstructor @NoArgsConstructor @Getter @Setter
 public class OrderDTO {
     private Long orderId;
     private String email;

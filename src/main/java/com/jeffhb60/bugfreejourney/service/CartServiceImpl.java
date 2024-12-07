@@ -188,6 +188,21 @@ public class CartServiceImpl implements CartService{
         return cartDTO;
     }
 
+
+    private Cart createCart() {
+        Cart userCart  = cartRepository.findCartByEmail(authUtil.loggedInEmail());
+        if(userCart != null){
+            return userCart;
+        }
+
+        Cart cart = new Cart();
+        cart.setTotalPrice(0.00);
+        cart.setUser(authUtil.loggedInUser());
+
+        return cartRepository.save(cart);
+    }
+
+
     @Transactional
     @Override
     public String deleteProductFromCart(Long cartId, Long productId) {
@@ -209,17 +224,29 @@ public class CartServiceImpl implements CartService{
     }
 
 
-    private Cart createCart() {
-        Cart userCart  = cartRepository.findCartByEmail(authUtil.loggedInEmail());
-        if(userCart != null){
-            return userCart;
+    @Override
+    public void updateProductInCarts(Long cartId, Long productId) {
+        Cart cart = cartRepository.findById(cartId)
+                .orElseThrow(() -> new CustomResourceNotFoundException("Cart", "cartId", cartId));
+
+        Product product = productRepository.findById(productId)
+                .orElseThrow(() -> new CustomResourceNotFoundException("Product", "productId", productId));
+
+        CartItem cartItem = cartItemRepository.findCartItemByProductIdAndCartId(cartId, productId);
+
+        if (cartItem == null) {
+            throw new APIException("Product " + product.getProductName() + " not available in the cart!!!");
         }
 
-        Cart cart = new Cart();
-        cart.setTotalPrice(0.00);
-        cart.setUser(authUtil.loggedInUser());
+        double cartPrice = cart.getTotalPrice()
+                - (cartItem.getProductPrice() * cartItem.getQuantity());
 
-        return cartRepository.save(cart);
+        cartItem.setProductPrice(product.getSpecialPrice());
+
+        cart.setTotalPrice(cartPrice
+                + (cartItem.getProductPrice() * cartItem.getQuantity()));
+
+        cartItem = cartItemRepository.save(cartItem);
     }
-}
 
+}

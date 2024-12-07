@@ -1,27 +1,20 @@
 package com.jeffhb60.bugfreejourney.model;
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
-@Entity
-@Data
-@Table(name = "cart_items")
-@NoArgsConstructor
-@AllArgsConstructor
+@Entity @Table(name = "cart_items")
+@AllArgsConstructor @NoArgsConstructor @Getter @Setter
 public class CartItem {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+
     @Column(name = "cart_item_id")
+    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long cartItemId;
 
-    @ManyToOne
-    @JoinColumn(name = "cart_id")
+    @ManyToOne @JoinColumn(name = "cart_id")
     private Cart cart;
 
-    @ManyToOne
-    @JoinColumn(name = "product_id")
+    @ManyToOne @JoinColumn(name = "product_id")
     private Product product;
 
     @Column(name = "quantity")
