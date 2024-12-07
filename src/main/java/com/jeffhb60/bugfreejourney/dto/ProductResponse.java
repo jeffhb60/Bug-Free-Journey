@@ -7,7 +7,7 @@ import lombok.Setter;
 
 import java.util.List;
 
-@Getter @Setter @AllArgsConstructor @NoArgsConstructor
+@AllArgsConstructor @NoArgsConstructor @Getter @Setter
 public class ProductResponse {
     private List<ProductDTO> content;
     private Integer pageNumber;

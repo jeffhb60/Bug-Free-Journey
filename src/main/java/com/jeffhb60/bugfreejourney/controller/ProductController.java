@@ -9,8 +9,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import static com.jeffhb60.bugfreejourney.config.AppConstants.*;
 
-@RestController @RequestMapping("/api")
-@RequiredArgsConstructor
+@RestController @RequestMapping("/api") @RequiredArgsConstructor
 public class ProductController {
 
     private final ProductService productService;

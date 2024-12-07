@@ -1,12 +1,9 @@
 package com.jeffhb60.bugfreejourney.service;
 
-import com.jeffhb60.bugfreejourney.dto.ProductDTO;
-import com.jeffhb60.bugfreejourney.model.Product;
 import com.jeffhb60.bugfreejourney.repositories.ProductRepository;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.data.rest.webmvc.ResourceNotFoundException;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 import org.springframework.web.multipart.MultipartFile;

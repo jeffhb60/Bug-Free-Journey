@@ -22,8 +22,7 @@ import org.springframework.web.multipart.MultipartFile;
 import java.io.IOException;
 import java.util.List;
 
-@RequiredArgsConstructor
-@Service
+@Service @RequiredArgsConstructor
 public class ProductServiceImpl implements ProductService {
 
     @Value("${file.upload-dir}")
@@ -33,7 +32,6 @@ public class ProductServiceImpl implements ProductService {
     private final CategoryRepository categoryRepository;
     private final ModelMapper modelMapper;
     private final FileService fileService;
-
 
     @Override
     public ProductDTO addProduct(Long categoryId, ProductDTO productDTO) {

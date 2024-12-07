@@ -1,7 +1,6 @@
 package com.jeffhb60.bugfreejourney.controller;
 
 import com.jeffhb60.bugfreejourney.dto.ProductDTO;
-import com.jeffhb60.bugfreejourney.service.FileService;
 import com.jeffhb60.bugfreejourney.service.ProductService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;

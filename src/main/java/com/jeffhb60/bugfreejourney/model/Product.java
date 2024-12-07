@@ -11,30 +11,23 @@ import org.springframework.stereotype.Component;
 import java.util.ArrayList;
 import java.util.List;
 
-@Entity
-@Data
-@NoArgsConstructor
-@AllArgsConstructor
-@Table(name = "products")
-@ToString
+@Entity @Table(name = "products")
+@AllArgsConstructor @NoArgsConstructor @Getter @Setter @ToString
 public class Product {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "product_id")
+    @Id @GeneratedValue(strategy = GenerationType.AUTO)
     private Long productId;
 
-    @NotBlank
-    @Size(min = 3, message = "Product name must contain atleast 3 characters")
     @Column(name = "product_name")
+    @NotBlank @Size(min = 3, message = "Product name must contain at least 3 characters")
     private String productName;
 
     @Column(name = "image")
     private String image;
 
-    @NotBlank
-    @Size(min = 6, message = "Product description must contain atleast 6 characters")
     @Column(name = "description")
+    @NotBlank @Size(min = 6, message = "Product description must contain at least 6 characters")
     private String description;
 
     @Column(name = "quantity")
@@ -49,12 +42,10 @@ public class Product {
     @Column(name = "special_price")
     private double specialPrice;
 
-    @ManyToOne
-    @JoinColumn(name = "category_id")
+    @ManyToOne @JoinColumn(name = "category_id")
     private Category category;
 
-    @ManyToOne
-    @JoinColumn(name = "seller_id")
+    @ManyToOne @JoinColumn(name = "seller_id")
     private User user;
 
     @OneToMany(mappedBy = "product", cascade = {CascadeType.PERSIST, CascadeType.MERGE}, fetch = FetchType.EAGER)
