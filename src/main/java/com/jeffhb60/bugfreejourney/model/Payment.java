@@ -8,25 +8,19 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-@Entity
-@Table(name = "payments")
-@Getter
-@Setter
-@NoArgsConstructor
-@AllArgsConstructor
+@Entity @Table(name = "payments")
+@AllArgsConstructor @NoArgsConstructor @Getter @Setter
 public class Payment {
 
-    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "payment_id")
+    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long paymentId;
 
-    @OneToOne
-    @JoinColumn(name = "order_id")
+    @OneToOne(mappedBy = "payment", cascade = { CascadeType.PERSIST, CascadeType.MERGE })
     private Order order;
 
-    @NotBlank
-    @Size(min = 4, message = "Payment method must contain at least 4 characters!")
     @Column(name = "payment_method")
+    @NotBlank @Size(min = 4, message = "Payment method must contain at least 4 characters")
     private String paymentMethod;
 
     @Column(name = "pg_payment_id")
@@ -41,14 +35,8 @@ public class Payment {
     @Column(name = "pg_name")
     private String pgName;
 
-    public Payment(String paymentMethod, String pgPaymentId, String pgStatus, String pgResponseMessage) {
-        this.paymentMethod = paymentMethod;
-        this.pgPaymentId = pgPaymentId;
-        this.pgStatus = pgStatus;
-        this.pgResponseMessage = pgResponseMessage;
-    }
-
-    public Payment(String paymentMethod, String pgPaymentId, String pgStatus, String pgResponseMessage, String pgName) {
+    public Payment(String paymentMethod, String pgPaymentId, String pgStatus,
+                   String pgResponseMessage, String pgName) {
         this.paymentMethod = paymentMethod;
         this.pgPaymentId = pgPaymentId;
         this.pgStatus = pgStatus;
