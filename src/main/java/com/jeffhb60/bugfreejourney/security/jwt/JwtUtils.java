@@ -33,20 +33,19 @@
 
         public String getJwtFromCookies(HttpServletRequest request) {
             Cookie cookie = WebUtils.getCookie(request, jwtCookie);
-            if (cookie != null) {
-    //            System.out.println("COOKIE: " + cookie.getValue());
-                return cookie.getValue();
-            } else { return null; }
+            return (cookie != null) ? cookie.getValue() : null;
         }
 
 
         public ResponseCookie getCleanJwtCookie() {
-            return ResponseCookie.from(jwtCookie, null).path("/api").build();
+            return ResponseCookie.from(jwtCookie, null).path("/api").httpOnly(true).build();
         }
 
         public ResponseCookie generateJwtCookie(UserDetailsImpl userPrincipal) {
             String jwt = generateTokenFromUsername(userPrincipal.getUsername());
-            return ResponseCookie.from(jwtCookie, jwt).path("/api").maxAge(24 * 60 * 60)
+            return ResponseCookie.from(jwtCookie, jwt)
+                    .path("/api")
+                    .maxAge(jwtExpirationMs / 1000)
                     .httpOnly(true)
                     .build();
         }

@@ -8,10 +8,8 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Component;
 
-@Component
-@RequiredArgsConstructor
+@Component @RequiredArgsConstructor
 public class AuthUtil {
-
 
     private final UserRepository userRepository;
 
@@ -37,8 +35,5 @@ public class AuthUtil {
         User user = userRepository.findByUserName(authentication.getName())
                 .orElseThrow(() -> new UsernameNotFoundException("User Not Found with username: " + authentication.getName()));
         return user;
-
     }
-
-
 }
