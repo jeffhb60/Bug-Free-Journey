@@ -1,8 +1,10 @@
 package com.jeffhb60.bugfreejourney.exceptions;
 
 import lombok.NoArgsConstructor;
+import org.springframework.http.HttpStatus;
+import org.springframework.web.bind.annotation.ResponseStatus;
 
-@NoArgsConstructor
+@ResponseStatus(HttpStatus.NOT_FOUND) @NoArgsConstructor
 public class CustomResourceNotFoundException extends RuntimeException {
     String resourceName;
     String field;

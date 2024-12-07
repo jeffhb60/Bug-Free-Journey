@@ -10,15 +10,14 @@ import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
 import java.util.List;
 
 @Service @RequiredArgsConstructor
 public class AddressServiceImpl implements AddressService {
+
     private final ModelMapper modelMapper;
     private final AddressRepository addressRepository;
     private final UserRepository userRepository;
-
 
     @Override
     public AddressDTO createAddress(AddressDTO addressDTO, User user) {
@@ -78,8 +77,6 @@ public class AddressServiceImpl implements AddressService {
 
         userRepository.save(user);
         return modelMapper.map(updatedAddress, AddressDTO.class);
-
-
     }
 
     @Override
@@ -92,6 +89,4 @@ public class AddressServiceImpl implements AddressService {
         addressRepository.delete(dbAddress);
         return "Address Id: " + dbAddress.getAddressId() + " Deleted";
     }
-
-
 }

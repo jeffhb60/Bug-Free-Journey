@@ -1,10 +1,8 @@
 package com.jeffhb60.bugfreejourney.dto;
 
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
-@Data @AllArgsConstructor @NoArgsConstructor
+@AllArgsConstructor @NoArgsConstructor @Getter @Setter
 public class AddressDTO {
     private Long addressId;
     private String street;

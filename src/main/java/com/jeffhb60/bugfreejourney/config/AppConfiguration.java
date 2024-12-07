@@ -8,6 +8,7 @@ public class AppConfiguration {
 
     @Configuration
     public static class AppConfig {
+
         @Bean
         public ModelMapper modelMapper() {
             return new ModelMapper();
